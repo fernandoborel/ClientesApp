@@ -1,0 +1,16 @@
+services:
+
+  clientesapp.api:
+    container_name: clientesapp.api
+    image: sergiocoti/clientes-app:latest
+    build:
+      context: .
+      dockerfile: ClientesApp.API/Dockerfile
+    ports:
+      - "5050:8080"
+    networks:
+      - clientesapp-network
+
+networks:
+  clientesapp-network:
+    driver: bridge
