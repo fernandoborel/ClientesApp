@@ -1,4 +1,5 @@
-﻿using ClientesApp.API.Contexts;
+﻿using System.ComponentModel.DataAnnotations;
+using ClientesApp.API.Contexts;
 using ClientesApp.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,13 +12,13 @@ public class ClientesController : ControllerBase
 {
     private readonly DataContext _dataContext;
 
-    public ClientesController()
-       => _dataContext = new DataContext();
+    public ClientesController(DataContext dataContext)
+       => _dataContext = dataContext;
 
     [HttpPost]
     public async Task<IActionResult> PostAsync([FromBody] ClienteRequest request)
     {
-        var cliente = new Cliente { Nome = request.nome, Email = request.email };
+        var cliente = new Cliente { Nome = request.Nome, Email = request.Email };
 
         await _dataContext.Clientes.AddAsync(cliente);
         await _dataContext.SaveChangesAsync();
@@ -37,8 +38,8 @@ public class ClientesController : ControllerBase
         if (cliente == null)
             return NotFound(new { message = "Cliente não encontrado." });
 
-        cliente.Nome = request.nome;
-        cliente.Email = request.email;
+        cliente.Nome = request.Nome;
+        cliente.Email = request.Email;
 
         _dataContext.Clientes.Update(cliente);
         await _dataContext.SaveChangesAsync();
@@ -87,7 +88,7 @@ public class ClientesController : ControllerBase
         var cliente = await _dataContext.Clientes.FindAsync(id);
 
         if (cliente == null)
-            return NoContent();
+            return NotFound(new { message = "Cliente não encontrado." });
 
         return Ok(cliente);
     }
@@ -95,6 +96,11 @@ public class ClientesController : ControllerBase
 
 //Record para entrada de dados (REQUEST)
 public record ClienteRequest(
-    string nome,
-    string email
+    [Required(ErrorMessage = "Nome é obrigatório.")]
+    [MaxLength(150, ErrorMessage = "Nome deve ter no máximo 150 caracteres.")]
+    string Nome,
+
+    [Required(ErrorMessage = "Email é obrigatório.")]
+    [EmailAddress(ErrorMessage = "Formato de e-mail inválido.")]
+    string Email
 );
