@@ -1,89 +1,89 @@
-# ????? ClientesApp API
+# ClientesApp API
 
-> API RESTful para gerenciamento de clientes, construída com **.NET 10**, **ASP.NET Core**, **Entity Framework Core** e documentada via **Swagger UI** e **Scalar**. Containerizada com **Docker** e publicada no **Docker Hub**, com pipeline de CI/CD para **Azure** em desenvolvimento.
+> API RESTful para gerenciamento de clientes, construÃ­da com **.NET 10**, **ASP.NET Core**, **Entity Framework Core** e documentada via **Swagger UI** e **Scalar**. Containerizada com **Docker** e publicada no **Docker Hub**, com pipeline de CI/CD para **Azure** em desenvolvimento.
 
 ---
 
-## ?? Índice
+## Ãndice
 
-- [Visão Geral](#-visão-geral)
+- [VisÃ£o Geral](#-visÃ£o-geral)
 - [Tecnologias Utilizadas](#-tecnologias-utilizadas)
 - [Arquitetura e Estrutura do Projeto](#-arquitetura-e-estrutura-do-projeto)
-- [Modelo de Domínio](#-modelo-de-domínio)
+- [Modelo de DomÃ­nio](#-modelo-de-domÃ­nio)
 - [Endpoints da API](#-endpoints-da-api)
 - [Como Executar Localmente](#-como-executar-localmente)
 - [Docker Hub](#-docker-hub)
-- [Azure — Hospedagem em Nuvem](#-azure--hospedagem-em-nuvem)
-- [Documentação Interativa](#-documentação-interativa)
-- [Pontos de Melhoria e Roadmap Técnico](#-pontos-de-melhoria-e-roadmap-técnico)
+- [Azure â€” Hospedagem em Nuvem](#-azure--hospedagem-em-nuvem)
+- [DocumentaÃ§Ã£o Interativa](#-documentaÃ§Ã£o-interativa)
+- [Pontos de Melhoria e Roadmap TÃ©cnico](#-pontos-de-melhoria-e-roadmap-tÃ©cnico)
 
 ---
 
-## ?? Visão Geral
+## VisÃ£o Geral
 
-O **ClientesApp** é uma Web API de CRUD completo para a entidade `Cliente`. O projeto foi desenvolvido com foco em:
+O **ClientesApp** Ã© uma Web API de CRUD completo para a entidade `Cliente`. O projeto foi desenvolvido com foco em:
 
-- Simplicidade e clareza de código
+- Simplicidade e clareza de cÃ³digo
 - Uso das features mais recentes do .NET 10
-- Containerização com Docker para portabilidade total
-- Documentação de API de alta qualidade com Swagger e Scalar
+- ContainerizaÃ§Ã£o com Docker para portabilidade total
+- DocumentaÃ§Ã£o de API de alta qualidade com Swagger e Scalar
 
 ---
 
-## ??? Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
-| Tecnologia | Versão | Finalidade |
+| Tecnologia | VersÃ£o | Finalidade |
 |---|---|---|
 | .NET / ASP.NET Core | 10.0 | Framework principal |
-| Entity Framework Core | 10.0.8 | ORM — acesso a dados |
-| EF Core InMemory | 10.0.8 | Banco de dados em memória (dev/test) |
-| Swashbuckle (Swagger) | 10.1.7 | Documentação interativa da API |
+| Entity Framework Core | 10.0.8 | ORM â€” acesso a dados |
+| EF Core InMemory | 10.0.8 | Banco de dados em memÃ³ria (dev/test) |
+| Swashbuckle (Swagger) | 10.1.7 | DocumentaÃ§Ã£o interativa da API |
 | Scalar | 2.14.14 | UI alternativa para OpenAPI |
-| Docker | — | Containerização da aplicação |
-| Docker Hub | — | Registro e distribuição da imagem |
-| Azure | — | Hospedagem em nuvem *(pipeline em desenvolvimento)* |
+| Docker | â€” | ContainerizaÃ§Ã£o da aplicaÃ§Ã£o |
+| Docker Hub | â€” | Registro e distribuiÃ§Ã£o da imagem |
+| Azure | â€” | Hospedagem em nuvem *(pipeline em desenvolvimento)* |
 
 ---
 
-## ??? Arquitetura e Estrutura do Projeto
+## Arquitetura e Estrutura do Projeto
 
 ```
 ClientesApp/
 ??? ClientesApp.API/
 ?   ??? Controllers/
-?   ?   ??? ClientesController.cs   # Camada de apresentação — endpoints REST
+?   ?   ??? ClientesController.cs   # Camada de apresentaÃ§Ã£o â€” endpoints REST
 ?   ??? Contexts/
 ?   ?   ??? DataContext.cs          # DbContext do EF Core
 ?   ??? Models/
-?   ?   ??? Cliente.cs              # Entidade de domínio
-?   ??? Program.cs                  # Bootstrap da aplicação
-??? Dockerfile                      # Imagem multi-stage para produção
-??? docker-compose.yml              # Orquestração local dos containers
+?   ?   ??? Cliente.cs              # Entidade de domÃ­nio
+?   ??? Program.cs                  # Bootstrap da aplicaÃ§Ã£o
+??? Dockerfile                      # Imagem multi-stage para produÃ§Ã£o
+??? docker-compose.yml              # OrquestraÃ§Ã£o local dos containers
 ??? docker-compose.override.yml     # Overrides para ambiente de desenvolvimento
 ```
 
-O projeto segue uma estrutura **monolítica simplificada** — adequada para o estágio atual — com clara separação entre as responsabilidades de apresentação (`Controllers`), persistência (`Contexts`) e domínio (`Models`).
+O projeto segue uma estrutura **monolÃ­tica simplificada** â€” adequada para o estÃ¡gio atual â€” com clara separaÃ§Ã£o entre as responsabilidades de apresentaÃ§Ã£o (`Controllers`), persistÃªncia (`Contexts`) e domÃ­nio (`Models`).
 
 ---
 
-## ?? Modelo de Domínio
+## Modelo de DomÃ­nio
 
 ### `Cliente`
 
-| Propriedade | Tipo | Descrição |
+| Propriedade | Tipo | DescriÃ§Ã£o |
 |---|---|---|
-| `Id` | `Guid` | Identificador único, gerado automaticamente |
+| `Id` | `Guid` | Identificador Ãºnico, gerado automaticamente |
 | `Nome` | `string` | Nome completo do cliente |
-| `Email` | `string` | Endereço de e-mail do cliente |
+| `Email` | `string` | EndereÃ§o de e-mail do cliente |
 | `DataHoraCadastro` | `DateTime` | Timestamp do cadastro, preenchido automaticamente |
 
 ---
 
-## ?? Endpoints da API
+## Endpoints da API
 
 **Base URL:** `http://localhost:5050/api/v1/clientes`
 
-| Método | Rota | Descrição | Código de Sucesso |
+| MÃ©todo | Rota | DescriÃ§Ã£o | CÃ³digo de Sucesso |
 |---|---|---|---|
 | `POST` | `/api/v1/clientes` | Cadastra um novo cliente | `201 Created` |
 | `PUT` | `/api/v1/clientes/{id}` | Atualiza dados de um cliente existente | `200 OK` |
@@ -91,23 +91,23 @@ O projeto segue uma estrutura **monolítica simplificada** — adequada para o está
 | `GET` | `/api/v1/clientes` | Lista todos os clientes (ordenados por cadastro) | `200 OK` / `204 No Content` |
 | `GET` | `/api/v1/clientes/{id}` | Busca um cliente pelo ID | `200 OK` / `204 No Content` |
 
-### ?? Request Body (POST / PUT)
+### Request Body (POST / PUT)
 
 ```json
 {
-  "nome": "João da Silva",
+  "nome": "JoÃ£o da Silva",
   "email": "joao.silva@email.com"
 }
 ```
 
-### ?? Exemplo de Response (POST — 201)
+### Exemplo de Response (POST â€” 201)
 
 ```json
 {
   "message": "Cliente cadastrado com sucesso.",
   "cliente": {
     "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-    "nome": "João da Silva",
+    "nome": "JoÃ£o da Silva",
     "email": "joao.silva@email.com",
     "dataHoraCadastro": "2025-07-14T10:30:00"
   }
@@ -116,17 +116,17 @@ O projeto segue uma estrutura **monolítica simplificada** — adequada para o está
 
 ---
 
-## ?? Como Executar Localmente
+## Como Executar Localmente
 
-### Pré-requisitos
+### PrÃ©-requisitos
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
-### ?? Opção 1 — Via .NET CLI
+### OpÃ§Ã£o 1 â€” Via .NET CLI
 
 ```bash
-# Clone o repositório
+# Clone o repositÃ³rio
 git clone https://github.com/fernandoborel/ClientesApp.git
 cd ClientesApp
 
@@ -134,25 +134,25 @@ cd ClientesApp
 dotnet run --project ClientesApp.API
 ```
 
-A API estará disponível em: `https://localhost:7xxx` / `http://localhost:5xxx`
+A API estarÃ¡ disponÃ­vel em: `https://localhost:7xxx` / `http://localhost:5xxx`
 
-### ?? Opção 2 — Via Docker Compose (Recomendado)
+### OpÃ§Ã£o 2 â€” Via Docker Compose (Recomendado)
 
 ```bash
-# Clone o repositório
+# Clone o repositÃ³rio
 git clone https://github.com/fernandoborel/ClientesApp.git
 cd ClientesApp
 
 # Suba o container
 docker-compose up -d
 
-# Verifique os containers em execução
+# Verifique os containers em execuÃ§Ã£o
 docker ps
 ```
 
-A API estará disponível em: `http://localhost:5050`
+A API estarÃ¡ disponÃ­vel em: `http://localhost:5050`
 
-### ?? Parar os containers
+### Parar os containers
 
 ```bash
 docker-compose down
@@ -160,9 +160,9 @@ docker-compose down
 
 ---
 
-## ?? Docker Hub
+## Docker Hub
 
-A imagem oficial do projeto está publicada no **Docker Hub** e pode ser utilizada diretamente, sem necessidade de build local:
+A imagem oficial do projeto estÃ¡ publicada no **Docker Hub** e pode ser utilizada diretamente, sem necessidade de build local:
 
 ```bash
 docker pull sergiocoti/clientes-app:latest
@@ -174,24 +174,24 @@ Para rodar a imagem isoladamente:
 docker run -d -p 5050:8080 --name clientesapp sergiocoti/clientes-app:latest
 ```
 
-?? **Imagem:** [`sergiocoti/clientes-app`](https://hub.docker.com/r/sergiocoti/clientes-app)
+ **Imagem:** [`sergiocoti/clientes-app`](https://hub.docker.com/r/sergiocoti/clientes-app)
 
 ---
 
-## ?? Azure — Hospedagem em Nuvem
+## Azure â€” Hospedagem em Nuvem
 
-O projeto está sendo integrado ao ecossistema **Microsoft Azure** para garantir alta disponibilidade, escalabilidade e CI/CD automatizado.
+O projeto estÃ¡ sendo integrado ao ecossistema **Microsoft Azure** para garantir alta disponibilidade, escalabilidade e CI/CD automatizado.
 
-> ?? **Status atual:** As pipelines de deploy contínuo estão em desenvolvimento.
+>  **Status atual:** As pipelines de deploy contÃ­nuo estÃ£o em desenvolvimento.
 
 ### Infraestrutura planejada
 
-| Serviço Azure | Finalidade |
+| ServiÃ§o Azure | Finalidade |
 |---|---|
 | **Azure Container Apps** | Hospedagem do container Docker em ambiente serverless gerenciado |
 | **Azure Container Registry (ACR)** | Registro privado de imagens Docker |
-| **Azure Pipelines / GitHub Actions** | CI/CD — build, push da imagem e deploy automatizado |
-| **Azure Monitor / Application Insights** | Observabilidade, rastreamento de requisições e alertas |
+| **Azure Pipelines / GitHub Actions** | CI/CD â€” build, push da imagem e deploy automatizado |
+| **Azure Monitor / Application Insights** | Observabilidade, rastreamento de requisiÃ§Ãµes e alertas |
 
 ### Fluxo de Deploy Planejado
 
@@ -206,14 +206,14 @@ Push para branch main
         ?
         ?
   Azure Container Apps (CD)
-  ??? Pull da nova imagem ? Deploy automático
+  ??? Pull da nova imagem ? Deploy automÃ¡tico
 ```
 
 ---
 
-## ?? Documentação Interativa
+## DocumentaÃ§Ã£o Interativa
 
-Com a aplicação em execução, acesse a documentação da API pelos seguintes endereços:
+Com a aplicaÃ§Ã£o em execuÃ§Ã£o, acesse a documentaÃ§Ã£o da API pelos seguintes endereÃ§os:
 
 | Interface | URL |
 |---|---|
@@ -223,38 +223,12 @@ Com a aplicação em execução, acesse a documentação da API pelos seguintes endere
 
 ---
 
-## ?? Pontos de Melhoria e Roadmap Técnico
+## LicenÃ§a
 
-A base do projeto está sólida. Os próximos passos naturais de evolução arquitetural são:
-
-### ?? Alta Prioridade
-
-- [ ] **Injeção de Dependência no Controller** — O `DataContext` está sendo instanciado diretamente no construtor (`new DataContext()`). O correto é registrá-lo no container de DI em `Program.cs` e injetá-lo via construtor, garantindo ciclo de vida gerenciado e testabilidade.
-- [ ] **Banco de dados persistente** — Migrar do `InMemoryDatabase` para **SQL Server** ou **PostgreSQL** com Migrations do EF Core para ambientes além do desenvolvimento.
-- [ ] **Data Annotations / FluentValidation** — Adicionar validação no `ClienteRequest` (campos obrigatórios, formato de e-mail, tamanho máximo).
-
-### ?? Média Prioridade
-
-- [ ] **Camada de Serviço (Service Layer)** — Extrair a lógica de negócio dos Controllers para uma camada de serviços, seguindo o **Single Responsibility Principle (SOLID)**.
-- [ ] **Repository Pattern** — Abstrair o acesso ao EF Core via interfaces de repositório para facilitar testes unitários com mocks.
-- [ ] **Testes automatizados** — Implementar testes unitários (xUnit + Moq) e testes de integração.
-- [ ] **Global Exception Handling** — Middleware centralizado de tratamento de erros com respostas padronizadas (RFC 7807 — Problem Details).
-
-### ?? Evolução Futura
-
-- [ ] **Autenticação e Autorização** — Implementar JWT Bearer Tokens com ASP.NET Core Identity ou integração com **Azure AD / Entra ID**.
-- [ ] **Paginação e Filtros** — Adicionar suporte a paginação, ordenação e filtros dinâmicos nos endpoints GET.
-- [ ] **Logging estruturado** — Integrar **Serilog** com sink para **Azure Application Insights**.
-- [ ] **Health Checks** — Endpoint `/health` para monitoramento pelo Azure.
-
----
-
-## ?? Licença
-
-Este projeto está sob a licença MIT. Consulte o arquivo `LICENSE` para mais detalhes.
+Este projeto estÃ¡ sob a licenÃ§a MIT. Consulte o arquivo `LICENSE` para mais detalhes.
 
 ---
 
 <div align="center">
-  <sub>Desenvolvido com ?? usando .NET 10 | Containerizado com Docker | Hospedado no Azure</sub>
+  <sub>Desenvolvido com <3 usando .NET 10 | Containerizado com Docker | Hospedado no Azure</sub>
 </div>
